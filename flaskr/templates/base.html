@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Pulls in title -->
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+    <h1>Flaskr</h1>
+    <ul>
+        <!-- If user is loggied in then -->
+        <!-- g and url_for are automatically available in templates -->
+        {% if g.user %}
+            <li><span>{{ g.user['username'] }}</span></li>
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+        {% else %}
+            <li><a href="{{ url_for('auth.register') }}">Register</a>
+            <li><a href="{{ url_for('auth.login') }}">Log In</a>
+        {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    <!-- Pulls in header -->
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  <!-- Pulls in the content -->
+  {% block content %}{% endblock %}
+</section>
+
+<!-- Flask automatically adds a static view that takes a path relative to the flaskr/static directory and serves it -->
