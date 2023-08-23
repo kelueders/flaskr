@@ -33,7 +33,7 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db.excecute(
+            db.execute(
                 'INSERT INTO post (title, body, author_id)'
                 ' VALUES (?, ?, ?)',
                 (title, body, g.user['id'])
@@ -43,6 +43,11 @@ def create():
         
     return render_template('blog/create.html')
 
+# both the update and delete views will need to fetch a post by id and check if
+# the author matches the logged in user
+# to avoid duplication of code, write a function to get the post and call it from each view
+    # check_author is defined (line 51) so the function can be used to get a post without checking the author
+    # useful if you wrote a view to show an individual post on a page where the user doesn't matter because they're not modifying the post
 def get_post(id, check_author=True):
     post = get_db().execute(
         'SELECT p.id, title, body, created, author_id, username'
@@ -85,4 +90,13 @@ def update(id):
             return redirect(url_for('blog.index'))
         
     return render_template('blog/update.html', post=post)
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    get_post(id)
+    db = get_db()
+    db.execute('DELETE FROM post WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('blog.index'))
 
