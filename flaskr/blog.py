@@ -100,10 +100,22 @@ def delete(id):
     db.commit()
     return redirect(url_for('blog.index'))
 
-@bp.route('/<int:id>/details', methods=['POST'])
-@login_required
+@bp.route('/<int:id>/details', methods=['GET', 'POST'])
 def details(id):
     post = get_post(id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        body = request.form['body']
+        error = None
+
+        if not title:
+            error = 'Title is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            return redirect(url_for('blog.index'))
 
     return render_template('blog/details.html', post = post)
 
