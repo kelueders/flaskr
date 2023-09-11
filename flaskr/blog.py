@@ -102,21 +102,15 @@ def delete(id):
 
 @bp.route('/<int:id>/details', methods=['GET', 'POST'])
 def details(id):
-    post = get_post(id)
-
-    if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
-        error = None
-
-        if not title:
-            error = 'Title is required.'
-
-        if error is not None:
-            flash(error)
-        else:
-            return redirect(url_for('blog.index'))
+    post = get_post(id, check_author=False)
 
     return render_template('blog/details.html', post = post)
+
+@bp.route('/<int:id>/like_post')
+def like_post(id):
+    post = get_post(id)
+
+
+
 
 
