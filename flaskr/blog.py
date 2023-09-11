@@ -110,6 +110,15 @@ def details(id):
 def like_post(id):
     post = get_post(id)
 
+    db = get_db()
+    db.execute(
+        'INSERT INTO like (author_id, post_id)'
+        ' VALUES (?, ?)',
+        (g.user['id'], post['id'])
+    )
+    db.commit()
+    return redirect(url_for('blog.index'))
+
 
 
 

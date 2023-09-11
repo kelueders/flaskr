@@ -23,4 +23,4 @@ CREATE TABLE like (
     date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     post_id INTEGER NOT NULL,
     FOREIGN KEY (post_id) REFERENCES post (id)
-)
+);

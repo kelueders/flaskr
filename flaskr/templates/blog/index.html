@@ -20,7 +20,7 @@
         {% endif %}
       </header>
       <p class="body">{{ post['body'] }}</p>
-      <p class="like"><a href="#">Like</a></p>
+      <p class="like"><a href="{{ url_for('blog.like_post', id=post['id']) }}">Like</a></p>
     </article>
     {% if not loop.last %}
       <hr>
