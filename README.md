@@ -5,3 +5,4 @@
 
 <u>Additional Features</u>
 * Added details page to view the post on a single page
+* Working on adding 'likes' feature so users can like individual posts
